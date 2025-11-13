@@ -13,7 +13,7 @@ func SendGetRequest() {
 	// Placeholder for sending GET requests
 }
 
-func SendPostRequest(url string, payload any) {
+func SendPostRequest(url string, payload any) error {
 
 	client := resty.New()
 	defer client.Close()
@@ -22,6 +22,14 @@ func SendPostRequest(url string, payload any) {
 		SetBody(payload). // default request content type is JSON
 		Post(url)
 
-	fmt.Println(err, res)
+	if err != nil {
+		fmt.Println("Error sending POST request:", err)
+		return err
+	}
 
+	responseBody := res.String()
+
+	fmt.Println("Response Body:", responseBody)
+
+	return nil
 }

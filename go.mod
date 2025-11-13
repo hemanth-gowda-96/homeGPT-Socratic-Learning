@@ -4,6 +4,10 @@ go 1.24.1
 
 require github.com/gofiber/fiber/v2 v2.52.9
 
+require resty.dev/v3 v3.0.0-beta.3
+
+require golang.org/x/net v0.33.0 // indirect
+
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect

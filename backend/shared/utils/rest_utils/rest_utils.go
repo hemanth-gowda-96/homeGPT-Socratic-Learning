@@ -2,6 +2,7 @@ package rest_utils
 
 import (
 	"fmt"
+	"io"
 
 	"resty.dev/v3"
 )
@@ -13,7 +14,7 @@ func SendGetRequest() {
 	// Placeholder for sending GET requests
 }
 
-func SendPostRequest(url string, payload any) error {
+func SendPostRequest(url string, payload any) ([]byte, error) {
 
 	client := resty.New()
 	defer client.Close()
@@ -24,12 +25,17 @@ func SendPostRequest(url string, payload any) error {
 
 	if err != nil {
 		fmt.Println("Error sending POST request:", err)
-		return err
+		return nil, err
 	}
 
-	responseBody := res.String()
+	defer res.Body.Close() // ensure to close response body
 
-	fmt.Println("Response Body:", responseBody)
+	resBytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
 
-	return nil
+	fmt.Println("Response:", string(resBytes))
+	return resBytes, nil
 }

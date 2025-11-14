@@ -1,7 +1,9 @@
 package single_chat
 
 import (
-	lm_studio_types "homegpt/backend/plugins/lm_studio/types"
+	"encoding/json"
+	"homegpt/backend/config"
+	ollama_types "homegpt/backend/plugins/lm_studio/types"
 	"homegpt/backend/shared/utils/rest_utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -34,19 +36,28 @@ func PostSingleChat(c *fiber.Ctx) error {
 	// access the raw body as a string
 	message := c.Body()
 
-	payload := lm_studio_types.Completions{
-		Model:       "mistral-7b-instruct-v0.3",
-		Prompt:      string(message),
-		Temperature: 0.9,
-		Stream:      false,
-		Stop:        []string{"back to you"},
-	}
-	rest_utils.SendPostRequest("http://localhost:1234/v1/completions", payload)
+	payload := ollama_types.Completions{
+		Model:  "mistral",
+		Prompt: string(message),
+		Stream: false}
 
-	return c.SendString("POST single chat endpoint: " + string(message))
+	data, err := rest_utils.SendPostRequest(config.Config.OLLAMA_URL+"/generate", payload)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error sending request")
+	}
+
+	// convet data to type ollama_types.CompletionsResponse
+
+	var response ollama_types.CompletionsResponse
+	err = json.Unmarshal(data, &response)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing response")
+	}
+	return c.Send([]byte(response.Response))
 }
 
 func RegisterSingleChatRoutes(app *fiber.App) {
+
 	app.Get("/single-chat", GetSingleChat)
 	app.Post("/single-chat", PostSingleChat)
 }

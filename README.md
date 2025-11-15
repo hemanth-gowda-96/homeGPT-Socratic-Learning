@@ -1,125 +1,102 @@
 # homeGPT-Socratic-Learning
 
+homeGPT-Socratic-Learning is an offline, privacy-friendly learning assistant powered by a locally-run 7B LLM (Mistral/Llama). Its purpose is to help my nephews learn concepts using the Socratic method — instead of giving direct answers, the AI asks guiding questions, encourages reasoning, and adapts to their understanding level.
 
+## 📢 Project Update: Moving to Next.js Full-Stack
 
-homeGPT-Socratic-Learning is an offline, privacy-friendly learning assistant powered by a locally-run 7B LLM (Mistral/Llama). Its purpose is to help my nephews learn concepts using the **Socratic method** — instead of giving direct answers, the AI asks guiding questions, encourages reasoning, and adapts to their understanding level.homeGPT-Socratic-Learning is an offline, privacy-friendly learning assistant powered by a locally-run 7B LLM (Mistral/Llama).
+This project is being developed as a Next.js full‑stack app. The UI and API routes will live in a single Next.js codebase, and the backend will proxy requests to a locally running LLM (LM Studio or Ollama). Existing Go prototype code will be kept temporarily while the migration completes.
 
+## 🎯 Key Features
 
+The entire system runs fully locally, with no cloud dependency, ensuring:
 
-## 🎯 Key Features## 🎯 Key Features
+- Safe for children — no external data exposure
+- Complete privacy — no data leaves the device
+- Works offline — runs even without internet
+- Fast responses — GPU-accelerated on devices like RTX 3060 Ti
 
+The goal is to build a personalized AI tutor that improves over time by learning from previous sessions and adjusting question difficulty.
 
+## 🏗️ Tech Stack
 
-The entire system runs **fully locally**, with no cloud dependency, ensuring:The entire system runs **fully locally**, with no cloud dependency, ensuring:
+- Next.js (App Router) + API Routes
+- TypeScript
+- Tailwind CSS (planned)
+- Local LLM via LM Studio or Ollama
 
+## 🛠️ Getting Started (Next.js)
 
+Prerequisites:
 
-✅ **Safe for children** - No external data exposure
+- Node.js 18+ and npm (or pnpm/yarn)
+- LM Studio or Ollama installed locally
 
-✅ **Complete privacy** - No data leaves the device  
-
-✅ **Works offline** - Runs even without internet  
-
-✅ **Fast responses** - Powered by GPU (RTX 3060 Ti)
-
-
-
-The goal is to build a personalized AI tutor that becomes better over time by learning from previous sessions and adjusting question difficulty.
-
-
-
-## 🏗️ ArchitectureTODO List (Roadmap for the Repository)
-
-✅ MVP Tasks
-
-- **Backend**: Beego (Go framework)
-
-- **LLM**: Mistral/Llama 7B (via LM Studio/Ollama) Add README introduction, purpose, and screenshots
-
-- **GPU**: RTX 3060 Ti
-
-- **Storage**: Local file-based session management Set up LM Studio/Ollama config for local 7B model
-
-
-
-## 📋 TODO List (Roadmap) Beego backend skeleton (/session, /question, /answer)
-
-
-
-### MVP Tasks Create Socratic prompt template
-
-
-
-- [ ] Add README introduction, purpose, and screenshots Create topic JSON format (e.g., java.json, math.json)
-
-- [ ] Set up LM Studio/Ollama config for local 7B model
-
-- [ ] Beego backend skeleton (`/session`, `/question`, `/answer`) Basic UI: Start topic → Ask → Answer → Follow-up
-
-- [ ] Create Socratic prompt template
-
-- [ ] Create topic JSON format (e.g., `java.json`, `math.json`) ✅ Optional Future Enhancements
-
-- [ ] Basic UI: Start topic → Ask → Answer → Follow-up  Mobile app version
-
- Offline speech TTS (“Great job!”)
-
-### 🚀 Optional Future Enhancements  Voice input (optional)
-
- Explanations only on request (“Explain pls”)
-- [ ] Mobile app version
-- [ ] Offline speech TTS ("Great job!")
-- [ ] Voice input (optional)
-- [ ] Explanations only on request ("Explain pls")
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Go 1.21+
-- LM Studio or Ollama installed
-- NVIDIA GPU with CUDA support (recommended)
-
-### Installation
+Setup (coming as the Next.js app lands):
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/hemanth-gowda-96/homeGPT-Socratic-Learning.git
 cd homeGPT-Socratic-Learning
 
-# Install dependencies
-go mod download
-
-# Run the application
-go run main.go
+# (Once Next.js is scaffolded)
+npm install
+npm run dev
+# App will start at http://localhost:3000
 ```
 
-### Configuration
+LLM server:
 
-1. Install and configure LM Studio or Ollama
-2. Download a 7B model (Mistral or Llama)
-3. Update configuration file with local model endpoint
+```bash
+# LM Studio (example)
+lms server start --port 1234
+
+# Ollama (example)
+ollama serve
+```
+
+## 🔧 Configuration
+
+For Next.js, create `.env.local` at the repo root:
+
+```
+# LLM endpoint your API routes will call
+LLM_BASE_URL=http://localhost:1234
+
+# Default model name
+LLM_MODEL=mistral
+```
+
+Notes:
+
+- If using LM Studio: the completions/chat endpoints are exposed under the port you start (`/v1/...`).
+- If using Ollama: REST endpoints are typically under `http://localhost:11434/api`.
 
 ## 📖 How It Works
 
-1. **Start a session** - Choose a topic (Java, Math, etc.)
-2. **AI asks questions** - Uses Socratic method to guide learning
-3. **Student responds** - Types answers and reasoning
-4. **AI adapts** - Adjusts difficulty based on understanding
-5. **Progress tracking** - Saves session data locally
+1. Start an LLM locally (LM Studio or Ollama)
+2. Next.js API routes proxy requests to the local LLM endpoint
+3. The UI guides learning using the Socratic method (question → reflect → follow‑up)
+4. Sessions and progress are stored locally for privacy
+
+## 📋 Roadmap
+
+- Migrate to Next.js full‑stack structure (app/, API routes)
+- Build chat UI with guided questioning
+- Add session persistence and progress tracking
+- Add voice I/O (optional)
 
 ## 🔒 Privacy
 
-All data processing happens locally on your machine. No internet connection required after initial setup. Perfect for children's education without privacy concerns.
+All data processing happens locally on your machine. No internet connection is required after initial setup.
 
 ## 📝 License
 
-MIT License - See LICENSE file for details
+MIT License — see LICENSE for details
 
 ## 👨‍💻 Author
 
-**Hemanth Gowda**
+Hemanth Gowda
 
 ---
 
-*Built with ❤️ for personalized, private, and effective learning*
+Built with ❤️ for personalized, private, and effective learning

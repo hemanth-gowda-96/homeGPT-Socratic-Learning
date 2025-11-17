@@ -78,12 +78,64 @@ Notes:
 3. The UI guides learning using the Socratic method (question → reflect → follow‑up)
 4. Sessions and progress are stored locally for privacy
 
+## 🚀 API Documentation
+
+Interactive API documentation is available via Swagger UI:
+
+```
+http://localhost:3000/api-docs
+```
+
+### Available Endpoints
+
+**📝 Generation API** (`/api/generate`)
+
+- Primary endpoint for text generation using Ollama models
+- Supports custom models, prompts, and generation options
+
+**💬 Chat API** (`/api/chat`)
+
+- Conversational endpoint with context and history support
+- Ideal for multi-turn conversations and guided learning
+
+**🏥 Health Checks**
+
+- All endpoints include GET methods for health monitoring
+- Returns available models and service status
+
+### Example Usage
+
+```javascript
+// Generate response
+const response = await fetch("/api/generate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    model: "mistral",
+    prompt: "Explain photosynthesis using the Socratic method",
+    stream: false,
+  }),
+});
+
+// Chat with context
+const chatResponse = await fetch("/api/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    message: "What is gravity?",
+    systemPrompt: "Use the Socratic method to guide learning",
+  }),
+});
+```
+
 ## 📋 Roadmap
 
-- Migrate to Next.js full‑stack structure (app/, API routes)
-- Build chat UI with guided questioning
-- Add session persistence and progress tracking
-- Add voice I/O (optional)
+- ✅ Next.js full‑stack structure with API routes
+- ✅ Interactive API documentation with Swagger
+- ✅ Voice input support for accessibility
+- 🔄 Enhanced chat UI with guided questioning
+- 🔄 Session persistence and progress tracking
+- 📋 Advanced Socratic method implementation
 
 ## 🔒 Privacy
 

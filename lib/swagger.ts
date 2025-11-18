@@ -223,6 +223,10 @@ export const getApiDocs = async () => {
           description: "Text generation endpoints using Ollama models",
         },
         {
+          name: "Audio",
+          description: "Audio processing and generation endpoints",
+        },
+        {
           name: "Chat",
           description: "Conversational chat endpoints",
         },
